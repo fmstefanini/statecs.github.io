@@ -9,6 +9,7 @@
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
         <script src="js/streamgraph.js" type="text/javascript"></script>
+        <script src="js/barchart.js" type="text/javascript"></script>
         <style>
             body {
                 font: 10px sans-serif;
@@ -26,10 +27,48 @@
                 shape-rendering: crispEdges;
             }
             button {
-                position: absolute;
                 right: 50px;
                 top: 10px;
             }
+            .d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+
+rect {
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+rect:hover{
+    fill: orange;
+}
 			
 			
         </style>
@@ -73,7 +112,10 @@
 		</script>
 		</div>
 		
-        <div class="pull-right">
+        <div class="pull-right menu">
+            <div><button id="sort" onclick="sortBars()">Sort</button></div>
+    <div><button id="reset" onclick="reset()">Reset</button></div>
+
             <select class="form-control" id="movie-list">
             </select>
         </div>
@@ -87,7 +129,7 @@
             selector = $("#movie-list");
             for(var key in json){
                 if(json.hasOwnProperty(key)){
-                    var movie =json[key];
+                    var movie = json[key];
                     selector.append("<option value="+movie["file"]+"-"+movie["color"]+"-"+movie["video"]+">"+key+"</option>");
                 }
             }
@@ -100,9 +142,39 @@
 
     </script>
 
+
+
+<div id="hide">Hide</div>
+<div id="show">Show</div>
+
+
+       <div id="bar-chart"></div>
+
          <div id="chart">
             <script type="text/javascript">
-                chart("data/Gravity.csv", "orange");
+                chart("data/Gravity-v2.csv", "orange");
             </script>
         </div>
+
+
+
+ 
+
+
+
+<script>$("#hide").click(function(){
+    $("#chart").hide();
+});
+
+$("#show").click(function(){
+    $("#chart").show();
+});</script>
+
+
+
+
+
+
+
+
 </html>
